@@ -5,8 +5,11 @@ nav:
       - Basics: machine_setup/basics.md
       - Git and Github: machine_setup/git.md
       - Fish: machine_setup/fish.md
+  - Development Basics:
+      - Shell: development_basics/shell.md
+      - Git: development_basics/git.md
+      - CI: development_basics/ci.md
   - Linux UM:
-      - Shell: linux_um/shell.md
       - Strace: linux_um/strace.md
       - Shtrudel: linux_um/shtrudel.md
       - Tcpdump: linux_um/tcpdump.md

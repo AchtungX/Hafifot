@@ -4,6 +4,7 @@
 
 ```sh
 sudo apt update
+sudo apt upgrade
 ```
 
 ## python and pip
@@ -15,7 +16,7 @@ sudo apt install -y \
 ```
 
 Make sure python is installed, and that you can create virtualenvs:
-```
+```sh
 # python installation sanity
 $ python -V
 Python 3.12.3
@@ -47,5 +48,24 @@ sudo apt install -y \
   plocate
 ```
 
+## CI Tools
+```sh
+sudo apt install -y \
+  gitlab-ci-multi-runner \
+  jenkins \
+  travis \
+  circleci-cli
+```
+
+## Other Tools
+```sh
+sudo apt install -y \
+  docker.io \
+  docker-compose \
+  kubectl \
+  minikube
+```
+
 ## IDEs
 TODO Pycharm, CLion, VisualStudio, Sublime
+```
