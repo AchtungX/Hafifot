@@ -9,3 +9,5 @@ theme:
   palette:
     primary: indigo
     accent: pink
+
+docs_dir: .
