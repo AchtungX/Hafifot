@@ -5,8 +5,8 @@ nav:
       - Prerequisites: machine_setup/prerequisites.md
       - Installation: machine_setup/installation.md
   - Linux UM:
-      - Introduction: linux_um/shtrudel.md
-      - User Management: linux_um/tcpdump.md
+      - Shtrudel: linux_um/shtrudel.md
+      - tcpdump: linux_um/tcpdump.md
 
 theme:
   name: material
