@@ -5,6 +5,7 @@ nav:
       - Prerequisites: machine_setup/prerequisites.md
       - Installation: machine_setup/installation.md
   - Linux UM:
+      - Shell: linux_um/shell.md
       - Shtrudel: linux_um/shtrudel.md
       - tcpdump: linux_um/tcpdump.md
 
