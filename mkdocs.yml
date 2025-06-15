@@ -1,9 +1,9 @@
 site_name: Team & Group Training Exercises
 
 nav:
-  - Setup:
-      - Prerequisites: setup/prerequisites.md
-      - Installation: setup/installation.md
+  - Machine Setup:
+      - Prerequisites: machine_setup/prerequisites.md
+      - Installation: machine_setup/installation.md
   - Linux UM:
       - Introduction: linux_um/introduction.md
       - User Management: linux_um/user_management.md
