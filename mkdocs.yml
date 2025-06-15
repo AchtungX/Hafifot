@@ -1,8 +1,12 @@
 site_name: Team & Group Training Exercises
 
 nav:
-  - Setup: setup.md
-  - Linux UM: linux_um.md
+  - Setup:
+      - Prerequisites: setup/prerequisites.md
+      - Installation: setup/installation.md
+  - Linux UM:
+      - Introduction: linux_um/introduction.md
+      - User Management: linux_um/user_management.md
 
 theme:
   name: material
