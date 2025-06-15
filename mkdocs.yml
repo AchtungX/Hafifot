@@ -1,0 +1,24 @@
+site_name: Team & Group Training Exercises
+
+nav:
+  - Machine Setup:
+      - Prerequisites: machine_setup/prerequisites.md
+      - Installation: machine_setup/installation.md
+  - Linux UM:
+      - Shell: linux_um/shell.md
+      - Strace: linux_um/strace.md
+      - Shtrudel: linux_um/shtrudel.md
+      - tcpdump: linux_um/tcpdump.md
+
+theme:
+  name: material
+  palette:
+    primary: indigo
+    accent: pink
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+
+docs_dir: content
