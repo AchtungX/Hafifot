@@ -2,13 +2,14 @@ site_name: Team & Group Training Exercises
 
 nav:
   - Machine Setup:
-      - Prerequisites: machine_setup/prerequisites.md
-      - Installation: machine_setup/installation.md
+      - Basics: machine_setup/basics.md
+      - Git and Github: machine_setup/git.md
+      - Fish: machine_setup/fish.md
   - Linux UM:
       - Shell: linux_um/shell.md
       - Strace: linux_um/strace.md
       - Shtrudel: linux_um/shtrudel.md
-      - tcpdump: linux_um/tcpdump.md
+      - Tcpdump: linux_um/tcpdump.md
 
 theme:
   name: material
