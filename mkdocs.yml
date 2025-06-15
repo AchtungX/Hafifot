@@ -6,9 +6,9 @@ nav:
       - Installation: machine_setup/installation.md
   - Linux UM:
       - Shell: linux_um/shell.md
+      - Strace: linux_um/strace.md
       - Shtrudel: linux_um/shtrudel.md
       - tcpdump: linux_um/tcpdump.md
-      - Strace: linux_um/strace.md
 
 theme:
   name: material
