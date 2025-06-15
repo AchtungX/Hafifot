@@ -6,19 +6,19 @@ This exercise will help you understand how to use `strace` and `ltrace` to trace
 !!! tip
       As always, start with `man 1 strace` and `man 1 ltrace`.
 
-1. **Run `strace` on some basic binaries**
+1. Run `strace` on some basic commands
    ```sh
    strace pwd
    strace ls
    strace echo "Hello, World!"
    ```
-   Some of the calls here are due to libc's initialization.
+   Some of the calls here are due to libc initialization.
    Can you identify where the binary's logic starts?
 
-2. **Run `ltrace` on the same binaries**
+2. Run `ltrace` on the same binaries
 
-3. **Where do `ifconfig` and `ps` get their info from?**
+3. Where do `ifconfig` and `ps` get information from? Try to retrieve the same information using simple shell commands.
 
-4. **`ip(1)` is a newer replacement for `ifconfig`. Consider `ip address` - is it the same as `ifconfig`?**
+4. The `ip` command is a newer replacement for `ifconfig`. Consider `ip address`: does it work the same way as `ifconfig`?
 
-5. **Try to use `strace` on a `sudo` command. Why doesn't it work?**
+5. Try to use `strace` on a `sudo` command. Why doesn't it work?
