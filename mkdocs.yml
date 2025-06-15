@@ -1,0 +1,11 @@
+site_name: Team & Group Training Exercises
+
+nav:
+  - Setup: setup.md
+  - Linux UM: linux_um.md
+
+theme:
+  name: material
+  palette:
+    primary: indigo
+    accent: pink
