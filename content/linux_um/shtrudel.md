@@ -40,6 +40,24 @@ $ ./shtrudel /bin/echo -e '1 foo\n2 bar\n3 foobar' @ /bin/grep foo
 !!!tip
     See `pipe(2)`, `dup2(2)`. It might be helpful to `strace` a real shell.
 
-## Level 3
+## Level 3 (Bonus!)
+TODO setup CI, add tests
 
-TODO
+## Level 4
+Finally, we want to support an arbitrary number of commands, just like your shell does.
+
+The following should work:
+```
+$ cd /my/shtrudel/dir
+$ make
+$ ./shtrudel /bin/echo foo
+foo
+$ ./shtrudel /bin/echo foo @ /bin/cat @ /bin/cat
+foo
+$ ./shtrudel /bin/echo -e '1 foo\n2 bar\n3 foobar' @ /bin/grep foo
+1 foo
+3 foobar
+$ ./shtrudel /bin/echo -e '1 foo\n2 bar\n3 foobar' @ /bin/grep foo @ /bin/grep bar
+3 foobar
+$ ./shtrudel /bin/echo -e '1 foo\n2 bar\n3 foobar' @ /bin/grep foo @ /bin/grep bar @ /bin/grep nonexist  # make sure the exit code also matches shell behavior
+```
