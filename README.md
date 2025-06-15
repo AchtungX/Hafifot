@@ -15,7 +15,7 @@ Repo for our Team & Group training exercises
    mkdir ~/virtualenvs
    python -m venv ~/virtualenvs/hafifot
    source ~/virtualenvs/hafifot/bin/activate.fish
-   
+
    pip install -r requirements.txt
    ```
 

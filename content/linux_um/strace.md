@@ -20,6 +20,21 @@ Strace is a powerful tool for tracing system calls and signals made by processes
    strace pwd
    ```
 
+4. **Run `ltrace` on `ls`**
+   ```sh
+   ltrace ls
+   ```
+
+5. **Run `ltrace` on `echo`**
+   ```sh
+   ltrace echo "Hello, World!"
+   ```
+
+6. **Run `ltrace` on `pwd`**
+   ```sh
+   ltrace pwd
+   ```
+
 ### Example Outputs
 
 #### Running `strace ls`
