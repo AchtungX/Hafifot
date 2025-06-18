@@ -1,0 +1,17 @@
+1. 
+
+brk(NULL)                     = 0x5b51da8c7000
+getcwd("/proc/15425", 4096)             = 12
+newfstatat(1, "", {st_mode=S_IFCHR|0620, st_rdev=makedev(0x88, 0x2), ...}, AT_EMPTY_PATH) = 0
+write(1, "/proc/15425\n", 12/proc/15425
+)           = 12
+
+after brk(NULL)
+
+
+4.
+ip is connecting to the ip the computter have acces to using socket, and extract the data this way, 
+ifconfig uses ioctl, he provok a syscall that gets the information from the net connection.
+
+5. 
+when doing strace ls pwd for example the strace is attached to the sudo process and prints his syscalls, it doenst continue to follow the pwd process and to log his syscalls. 
