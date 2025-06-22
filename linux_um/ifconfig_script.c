@@ -92,7 +92,6 @@ int add_name_flags_mtu(int socket_fd, int IF_idx, struct ifreq ifr, char result_
 
     ret = ioctl(socket_fd, SIOCGIFMTU, &ifr);
     CHECK(ret == 0, "Error in ioct");
-    
 
     snprintf(result_msg[(IF_idx*MAX_LINE_PER_IF)], MAX_LINE_LEN, "%s: flags = %d <> mtu = %d\n", ifr.ifr_name, flags, ifr.ifr_mtu);
 
@@ -116,7 +115,6 @@ int add_ip_addr(int socket_fd, int IF_idx, struct ifreq ifr, char result_msg[MAX
     CHECK(inet_ntop(AF_INET, &ip_addr->sin_addr, str_ip_addr, IPv4_LEN-1), "Error in inet_ntop");
     str_ip_addr[IPv4_LEN-1] = '\0';
     snprintf(str_ip_addr_cp, IPv4_LEN, "%s", str_ip_addr);
-
 
     ret = ioctl(socket_fd, SIOCGIFNETMASK, &ifr);
     CHECK(ret == 0, "Error in ioct");
@@ -169,8 +167,7 @@ int append_packet_stat(char result_msg[MAX_IF_NUMBER*MAX_LINE_PER_IF][MAX_LINE_L
                 params_list[count][MAX_PARAM_LEN - 1] = '\0';  // null-terminate
                 count++;    
                 token = strtok(NULL, " ");
-                }
-                
+                }   
 
                 //add the lines according to the format
                 snprintf(result_msg[(i*MAX_LINE_PER_IF)+4], MAX_LINE_LEN, "\tRX packets %s bytes %s (%s MB)\n", params_list[2], params_list[1], params_list[1]);
