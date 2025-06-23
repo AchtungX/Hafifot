@@ -28,13 +28,26 @@
         } \
     } while (0)
 
-__uint32_t MAX_LINE_PER_IF = 8;
-__uint32_t MAX_IF_NUMBER = 20;
-__uint32_t MAX_IF_NAME_LEN = 32;
-__uint32_t MAX_LINE_LEN = 128;
-__uint32_t MAX_PARAMS = 15;
-__uint32_t MAX_PARAM_LEN = 32;
-__uint32_t IPv4_LEN = 16;
+#define RX_PACKETS_IDX 2
+#define RX_BYTES_IDX 1
+#define RX_ERR_IDX 3
+#define RX_DROP_IDX 4
+#define RX_OVERRUN_IDX 5
+#define RX_FRAME_IDX 6
+#define TX_PACKETS_IDX 10
+#define TX_BYTES_IDX 9
+#define TX_ERR_IDX 11
+#define TX_DROP_IDX 12
+#define TX_OVERRUN_IDX 13
+#define TX_FRAME_IDX 14
+
+const __uint32_t MAX_LINE_PER_IF = 8;
+const __uint32_t MAX_IF_NUMBER = 20;
+const __uint32_t MAX_IF_NAME_LEN = 32;
+const __uint32_t MAX_LINE_LEN = 128;
+const __uint32_t MAX_PARAMS = 15;
+const __uint32_t MAX_PARAM_LEN = 32;
+const __uint32_t IPv4_LEN = 16;
 
 const char *IF_dir_path = "/sys/class/net/";
 const char *IF_stat_file_path = "/proc/net/dev";

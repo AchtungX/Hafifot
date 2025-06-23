@@ -1,29 +1,21 @@
 #include "ifconfig_script.h"
 
 int main() {
-    //the total msg to be printed of ifconfig
-    char result_msg[MAX_IF_NUMBER*MAX_LINE_PER_IF][MAX_LINE_LEN];
-    memset(result_msg, 0, sizeof(result_msg));
+    char result_msg[MAX_IF_NUMBER*MAX_LINE_PER_IF][MAX_LINE_LEN]; //A space for the total result msg of ifconfig
 
-    //list of if names
-    char if_names[MAX_IF_NUMBER][MAX_IF_NAME_LEN];
-    memset(if_names, 0, sizeof(if_names));
+    char if_names[MAX_IF_NUMBER][MAX_IF_NAME_LEN]; //List of interfaces names
     int IF_num = get_IF_names(if_names);
     CHECK(IF_num > 0, "error in get_IF_names func");
     
-    //add netwoork data on IF to result msg for each IF
     for (int i = 0; i<IF_num; i++) {
-        append_net_data(if_names[i], i, result_msg);
-        CHECK(IF_num > 0, "error in append_net_data func");
+        CHECK(append_net_data(if_names[i], i, result_msg) == 0, "error in append_net_data func"); //Add netwoork data on each IF to result msg
     }
     
-    //add data on packets stat in the interfaces
-    append_packet_stat(result_msg, if_names);
-    CHECK(IF_num > 0, "error in append_packet_stat func");
+    CHECK(append_packet_stat(result_msg, if_names) == 0, "error in append_packet_stat func"); //Add data on packets stat of the interfaces
 
-    for (__uint32_t i=0; i<(MAX_IF_NUMBER*MAX_LINE_PER_IF); i++){
+    for (__uint32_t i=0; i<(IF_num*MAX_LINE_PER_IF); i++){
         if(strlen(result_msg[i]) ==0 ) {
-            continue;;
+            continue;
         }
         printf("%s", result_msg[i]);
     }
@@ -41,17 +33,15 @@ int get_IF_names(char if_names[MAX_IF_NUMBER][MAX_IF_NAME_LEN]) {
     __uint32_t count = 0;
 
     while ((entry = readdir(if_dir)) != NULL) {
-        //skip on '.' and '..' entries in dir
-        if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0)
+        if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0) //skip on '.' and '..' entries in dir
             continue;
 
         if (count >= MAX_IF_NUMBER) {
             printf("Reached max interface count (%d)\n", MAX_IF_NUMBER);
             break;
         }
-
         strncpy(if_names[count], entry->d_name, MAX_IF_NAME_LEN - 1);
-        if_names[count][MAX_IF_NAME_LEN - 1] = '\0'; //add null-termination
+        if_names[count][MAX_IF_NAME_LEN - 1] = '\0'; //Add null-termination
         count++;
     }
 
@@ -63,8 +53,7 @@ error:
 }
 
 int append_net_data(char if_name[MAX_IF_NAME_LEN], int IF_idx, char result_msg[MAX_IF_NUMBER*MAX_LINE_PER_IF][MAX_LINE_LEN]) {
-    //open socket for ioct req
-    int socket_fd = socket(AF_INET, SOCK_DGRAM, 0);
+    int socket_fd = socket(AF_INET, SOCK_DGRAM, 0); //Open socket for ioctl req.
     CHECK(socket_fd > 0, "error in open socket");
 
     struct ifreq ifr;
@@ -85,10 +74,9 @@ error:
 }
 
 int add_name_flags_mtu(int socket_fd, int IF_idx, struct ifreq ifr, char result_msg[MAX_IF_NUMBER*MAX_LINE_PER_IF][MAX_LINE_LEN]){
-    //add first line - if_name, flags and mtu
     int ret = ioctl(socket_fd, SIOCGIFFLAGS, &ifr);
     CHECK(ret == 0, "Error in ioct");
-    short flags = ifr.ifr_flags; //save it before another ioctl req
+    short flags = ifr.ifr_flags; //Save it before another ioctl req
 
     ret = ioctl(socket_fd, SIOCGIFMTU, &ifr);
     CHECK(ret == 0, "Error in ioct");
@@ -108,7 +96,6 @@ int add_ip_addr(int socket_fd, int IF_idx, struct ifreq ifr, char result_msg[MAX
     char str_br_addr[IPv4_LEN];
     char str_br_addr_cp[IPv4_LEN];
 
-    //add second line - inet, netmask, broadcast
     int ret = ioctl(socket_fd, SIOCGIFADDR, &ifr);
     CHECK(ret == 0, "Error in ioct");
     struct sockaddr_in *ip_addr = (struct sockaddr_in *)&ifr.ifr_addr;
@@ -148,32 +135,30 @@ int append_packet_stat(char result_msg[MAX_IF_NUMBER*MAX_LINE_PER_IF][MAX_LINE_L
         line_num ++;
         line[MAX_LINE_LEN] = '\0';
 
-        char *token =strtok(line, " ");  //split by space
+        char *token =strtok(line, " "); //Split line by space
         __uint32_t count = 0;
         char params_list[MAX_PARAMS][MAX_PARAM_LEN];
 
-
-        //check if its the line of the interface - if so add the two lines 
-        for(__uint32_t i =0; i<MAX_IF_NUMBER; i++) {
-            if(strlen(if_names[i]) == 0 || token == NULL) {    //end when there is no more if to go through or when the line is empty
+ 
+        for(__uint32_t i =0; i<MAX_IF_NUMBER-1; i++) {
+            if(strlen(if_names[i]) == 0 || token == NULL || strlen(token) == 0) { //End when there is no more interfaces to go through or when the line is empty
+                result_msg[(i*MAX_LINE_PER_IF)][0] = '\0';
                 break;
             }
-            //if this line belongs to one of the interfaces - create params_list array
-            if(strncmp(token, if_names[i], strlen(if_names[i]))== 0) {
+            
+            if(strncmp(token, if_names[i], strlen(if_names[i]))== 0) { //Check if this line belongs to one of the interfaces, if so create params_list array
 
-                //read the rest of the line
-                while (token != NULL && count < MAX_PARAMS) {
-                strncpy(params_list[count], token, MAX_PARAM_LEN - 1);
-                params_list[count][MAX_PARAM_LEN - 1] = '\0';  // null-terminate
-                count++;    
-                token = strtok(NULL, " ");
-                }   
+                while (token != NULL && count < MAX_PARAMS) { //Read the rest of the line
+                    strncpy(params_list[count], token, MAX_PARAM_LEN - 1);
+                    params_list[count][MAX_PARAM_LEN - 1] = '\0';  //Add null-terminate
+                    count++;    
+                    token = strtok(NULL, " ");
+                }
 
-                //add the lines according to the format
-                snprintf(result_msg[(i*MAX_LINE_PER_IF)+4], MAX_LINE_LEN, "\tRX packets %s bytes %s (%s MB)\n", params_list[2], params_list[1], params_list[1]);
-                snprintf(result_msg[(i*MAX_LINE_PER_IF)+5], MAX_LINE_LEN, "\tRX errors %s dropped %s overruns %s fram %s\n", params_list[3], params_list[4], params_list[5], params_list[6]);
-                snprintf(result_msg[(i*MAX_LINE_PER_IF)+6], MAX_LINE_LEN, "\tTX packets %s bytes %s (%s MB)\n", params_list[10], params_list[9], params_list[9]);
-                snprintf(result_msg[(i*MAX_LINE_PER_IF)+7], MAX_LINE_LEN, "\tTX errors %s dropped %s overruns %s fram %s\n", params_list[11], params_list[12], params_list[13], params_list[14]);
+                snprintf(result_msg[(i*MAX_LINE_PER_IF)+4], MAX_LINE_LEN, "\tRX packets %s bytes %s (%s MB)\n", params_list[RX_PACKETS_IDX], params_list[RX_BYTES_IDX], params_list[RX_BYTES_IDX]); //Add lines to result_msg according to ifconfig format
+                snprintf(result_msg[(i*MAX_LINE_PER_IF)+5], MAX_LINE_LEN, "\tRX errors %s dropped %s overruns %s fram %s\n", params_list[RX_ERR_IDX], params_list[RX_DROP_IDX], params_list[RX_OVERRUN_IDX], params_list[RX_FRAME_IDX]);
+                snprintf(result_msg[(i*MAX_LINE_PER_IF)+6], MAX_LINE_LEN, "\tTX packets %s bytes %s (%s MB)\n", params_list[TX_PACKETS_IDX], params_list[TX_BYTES_IDX], params_list[TX_BYTES_IDX]);
+                snprintf(result_msg[(i*MAX_LINE_PER_IF)+7], MAX_LINE_LEN, "\tTX errors %s dropped %s overruns %s fram %s\n", params_list[TX_ERR_IDX], params_list[TX_DROP_IDX], params_list[TX_OVERRUN_IDX], params_list[TX_FRAME_IDX]);
             }
         }
     }   
